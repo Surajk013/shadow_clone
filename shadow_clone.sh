@@ -76,17 +76,16 @@ pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanag
 # genfstab
 genfstab -U  /mnt > /mnt/etc/fstab
 
-# directing to a different file | for a new shell
+# chrooting [ and directing to a different file | for a new shell ]
 sed '1,/^# actualSystem$/d' `basename $0` > /mnt/shadow_clone2.sh
 chmod +x /mnt/shadow_clone2.sh
 arch-chroot /mnt/  ./shadow_clone2.sh
-pwD=pwd
-echo -e "\n\n\n\n${RED}${pwD}${RED}\n\n\n\n"
+echo -e "\n\n\n\n${RED}${pwd}${RED}\n\n\n\n"
 exit
 
 # actualSystem
 # 5 to 15 concurrency downloads
-sed -i "s/^#ParallelOdwnloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
+sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 reflector --country "india" --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 # setting timezone + system clock
