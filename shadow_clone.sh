@@ -79,12 +79,12 @@ genfstab -U  /mnt > /mnt/etc/fstab
 # chrooting [ and directing to a different file | for a new shell ]
 sed '1,/^# actualSystem$/d' `basename $0` > /mnt/shadow_clone2.sh
 chmod +x /mnt/shadow_clone2.sh
-arch-chroot /mnt/  /shadow_clone2.sh
-echo -e "\n\n\n\n${RED}${pwd}${RED}\n\n\n\n"
+arch-chroot /mnt  ./shadow_clone2.sh
 exit
 
 # actualSystem
 # 5 to 15 concurrency downloads
+echo -e "\n\n\n\n${RED}${pwd}${RED}\n\n\n\n"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 reflector --country "india" --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
@@ -161,7 +161,7 @@ su -c $shadow_clone3 -s /bin/sh $user
 print '\033c'
 
 # X11
-pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xrandr
+pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xorg-xrandr
 
 # Dev Tools
 pacman --noconfirm rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
