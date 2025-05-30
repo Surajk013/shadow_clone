@@ -127,12 +127,12 @@ mkfs.btrfs -f $storage
 
 
 # mount Btrfs storage partition
-mkdir -p /mnt/KSS/.btrfssnapshots/
 mount -t btrfs $storage /mnt/KSS
 btrfs subv create /mnt/KSS/Media
 btrfs subv create /mnt/KSS/Documents
 btrfs subv create /mnt/KSS/Learnings
 btrfs subv create /mnt/KSS/backUps
+mkdir -p /mnt/KSS/.btrfssnapshots/
 
 
 
@@ -154,7 +154,7 @@ shadow_clone3=/home/$user/.shadow_clone3.sh
 sed '1,/^# userSetup$/d' shadow_clone2.sh > $shadow_clone3
 chown $user:$user $shadow_clone3
 chmod +x $shadow_clone3
-su -c $shadow_clone3 -s /bin/sh $user
+su -c $shadow_clone3 -s /bin/sh 
 exit
 
 
@@ -192,8 +192,9 @@ echo -e "${ERROR} check fstab now${RESET}"
 
 # setup DWM
 echo -e "${INFO}[INFO]${RESET} Installing DWM"
+mkdir -p /mnt/KSS/backUps/archinstall/dwm/ 
 cd /mnt/KSS/backUps/archinstall/dwm/ 
-dwm_package=(dmw st dwmblocks dmenu)
+dwm_package=(dwm st dwmblocks dmenu)
 myGithub=https://github.com/surajk013/
 
 for repo in "${dwm_package[@]}"; do 
@@ -209,19 +210,19 @@ cd $homeDir
 # setup scripts 
 echo -e "${INFO}[INFO]${RESET} Downloading scripts"
 git clone "${myGithub}scripts" 
-cp -t ${homeDir}scripts/*  /bin/
-cp ${hmoeDir}scripts/cpu/* /bin/
-echo -e"${OK}[OK]${RESET} scripts updated"
+cp -t ${homeDir}/scripts/*  /bin/
+cp ${homeDir}/scripts/cpu/* /bin/
+echo -e "${OK}[OK]${RESET} scripts updated"
 
 # setup myDots 
 echo -e "${INFO}[INFO]${RESET} Downloading dots"
 git clone "${myGithub}dot-files"
-cd ${homeDir}dot-files/ 
-cp .tmux.conf ${homeDir}.config/tmux/
-cp .zshrc ${homeDir}
-cp .vimrc ${homeDir}
-cp config.py ${homeDir}.config/qutebrowser/
-cp kitty.conf ${homeDir}.config/kitty.conf
+cd ${homeDir}/dot-files/
+mkdir -p "${homeDir}/.config/tmux" "${homeDir}/.config/qutebrowser" "${homeDir}/.config/kitty/"
+cp .tmux.conf "${homeDir}.config/tmux/"
+cp config.py "${homeDir}.config/qutebrowser/"
+cp kitty.conf "${homeDir}.config/kitty/"
+cp .zshrc .vimrc "${homeDir}/"
 echo -e"${OK}[OK]${RESET} dots updated"
 
 # setup Hyprland
@@ -229,14 +230,14 @@ echo -e "${INFO}[INFO]${RESET} Installing Hyprland in 10 seconds \n
          Please fill prompts \n 
          ${RED}DO NOT REBOOT${RESET} even on prompt"
 
-for i in 1000; do 
+for ((i=0;i<1000;i++)); do 
   echo "${RED}ENTER PROMPT${RESET}"
 done
 
 sleep 10
 
 git clone https://github.com/Jakoolit/arch-hyprland
-cd Arch-Hyprland
+cd arch-hyprland
 ./install.sh
 
 # setting up AUR
@@ -245,4 +246,4 @@ git clone https://aur.archlinux.org/aur.git
 cd aur 
 makepkg -fsri
 # to verify the following 
-yay -S tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio 
+yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio 
