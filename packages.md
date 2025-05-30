@@ -39,11 +39,8 @@ scrot
 secure-delete
 tmux
 tree
-auto-cpufreq
-barrier
 neovim
 vim
-vimv
 git-lfs
 arch-install-scripts
 gcc
@@ -75,7 +72,6 @@ mariadb
 nginx
 nmap
 nmon
-steghide
 tlp
 ufw
 whois
@@ -163,3 +159,7 @@ upscayl-bin
 onlyoffice-bin
 google-chrome-stable
 android-studio
+auto-cpufreq
+barrier
+vimv
+steghide
