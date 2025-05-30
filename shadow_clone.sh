@@ -165,25 +165,25 @@ echo -e "\n\n\n\n$(whoami)\n\n\n\n"
 pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xorg-xrandr
 
 # Dev Tools
-pacman --noconfirm rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
+pacman -S --noconfirm rsync syncthing tailscale scrcpy scrot tmux tree auto-cpufreq barrier neovim vim vimv git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
 
 # Security Tools
-pacman --noconfirm nginx nmap nmon steghide tlp ufw whois wipe metasploit
+pacman -S --noconfirm nginx nmap nmon steghide tlp ufw whois wipe metasploit
 
 # Libraries
-pacman --noconfirm calcurse openssh libxft libxinerama openssl
+pacman -S --noconfirm calcurse openssh libxft libxinerama openssl
 
 # Sys Monitor
-pacman --noconfirm at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
+pacman -S --noconfirm at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
 
 # Applications
-pacman --noconfirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp ani-cli asciiquarium magnus sxiv zathura transmission upscyal-bin onlyoffice-bin qutebrowser google-chrome-stable firefox kdenlive obs-studio android-studio
+pacman -S --noconfirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp asciiquarium sxiv zathura qutebrowser firefox kdenlive obs-studio 
 
 # Miscellaneous
-pacman --noconfirm sl cava tty-clock wtf fastfetch neofetch cbonsai cowsay figlet lolcat pfetch uwufetch pamixer pavucontrol hollywood
+pacman -S --noconfirm sl cava fastfetch cowsay figlet lolcat uwufetch pamixer pavucontrol 
 
 # Fonts
-pacman --noconfirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
+pacman -S --noconfirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
 
 # since you have arch-install-scripts which includes genfstab 
 genfstab -U / >> /etc/fstab
@@ -195,7 +195,7 @@ cd /mnt/KSS/backUps/archinstall/dwm/
 dwm_package=(dmw st dwmblocks dmenu)
 myGithub=https://github.com/surajk013/
 
-for repo in dwm_package; do 
+for repo in "${dwm_package[@]}"; do 
   git clone "$myGithub$repo"
 done
 
@@ -244,4 +244,4 @@ git clone https://aur.archlinux.org/aur.git
 cd aur 
 makepkg -fsri
 # to verify the following 
-# yay -S google-chrome-stable onlyoffice-bin upscyal-bin ani-cli
+yay -S tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio 

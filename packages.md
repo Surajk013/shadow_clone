@@ -119,38 +119,25 @@ nemo
 eog
 cheese
 gimp
-ani-cli
 asciiquarium
-magnus
 sxiv
 zathura
-transmission
-upscayl-bin
-onlyoffice-bin
 qutebrowser
-google-chrome-stable
 firefox
 kdenlive
 obs-studio
-android-studio
 
 
 # MISCELLANEOUS
 sl
 cava
-tty-clock
-wtf
 fastfetch
-neofetch
-cbonsai
 cowsay
 figlet
 locat
-pfetch
 uwufetch
 pamixer
 pavucontrol
-hollywood
 
 # FONTS
 ttf-jetbrains-mono
@@ -160,3 +147,19 @@ noto-fonts
 noto-fonts-emoji
 ttf-droid
 ttf-font-awesome
+
+
+# YAY 
+tty-clock
+wtf
+cbonsai
+neofetch
+pfetch
+hollywood
+ani-cli
+magnus
+transmission
+upscayl-bin
+onlyoffice-bin
+google-chrome-stable
+android-studio
