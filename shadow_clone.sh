@@ -69,7 +69,7 @@ mkdir -p /mnt/boot
 mount $efi /mnt/boot
 
 # Base Install [ESSENTIALS]
-pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector
+pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git
 
 # Remaining packages are installed in the chroot environment
 
@@ -84,7 +84,7 @@ exit
 
 # actualSystem
 # 5 to 15 concurrency downloads
-echo -e "\n\n\n\n${RED}${pwd}${RED}\n\n\n\n"
+echo -e "\n\n\n\n${RED}$(pwd)${RESET}\n\n\n\n"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 reflector --country "india" --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
@@ -140,7 +140,7 @@ btrfs subv create /mnt/KSS/backUps
 # add a user
 echo "Enter user: "
 read user 
-useradd -mG wheel,storage,audio,video,power,libvert,kvm,input -s /bin/sh $user
+useradd -mG wheel,storage,audio,video,power,kvm,input -s /bin/sh $user
 
 # set password for the user 
 echo "Enter password: "
@@ -158,13 +158,14 @@ su -c $shadow_clone3 -s /bin/sh $user
 
 
 # userSetup
-print '\033c'
+printf '\033c'
+echo -e "\n\n\n\n$(whoami)\n\n\n\n"
 
 # X11
 pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xorg-xrandr
 
 # Dev Tools
-pacman --noconfirm rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
+pacman --noconfirm rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
 
 # Security Tools
 pacman --noconfirm nginx nmap nmon steghide tlp ufw whois wipe metasploit

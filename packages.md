@@ -15,6 +15,7 @@ foremost
 dosfstools
 kitty
 bluez
+git
 
 # X11
 xorg
@@ -43,7 +44,6 @@ barrier
 neovim
 vim
 vimv
-git
 git-lfs
 arch-install-scripts
 gcc
