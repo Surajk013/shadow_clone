@@ -79,7 +79,7 @@ genfstab -U  /mnt > /mnt/etc/fstab
 # chrooting [ and directing to a different file | for a new shell ]
 sed '1,/^# actualSystem$/d' `basename $0` > /mnt/shadow_clone2.sh
 chmod +x /mnt/shadow_clone2.sh
-arch-chroot /mnt/  ./shadow_clone2.sh
+arch-chroot /mnt/  /shadow_clone2.sh
 echo -e "\n\n\n\n${RED}${pwd}${RED}\n\n\n\n"
 exit
 
