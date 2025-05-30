@@ -80,6 +80,8 @@ genfstab -U  /mnt > /mnt/etc/fstab
 sed '1,/^# actualSystem$/d' `basename $0` > /mnt/shadow_clone2.sh
 chmod +x /mnt/shadow_clone2.sh
 arch-chroot /mnt/  ./shadow_clone2.sh
+pwD=pwd
+echo -e "\n\n\n\n${RED}${pwD}${RED}\n\n\n\n"
 exit
 
 # actualSystem
@@ -120,19 +122,20 @@ echo -e "${ERROR} check if EFI is mounted${RESET} "
 # Format storage partition
 echo -e "Enter the ${YELLOW}storage${RESET} parition: "
 read storage 
-mkfs.btrfs $storage
+mkfs.btrfs -f $storage
+
+# setting up BTRFS 
+
 
 # mount Btrfs storage partition
-mkdir /mnt/KSS/.btrfssnapshots/
+mkdir -p /mnt/KSS/.btrfssnapshots/
 mount -t btrfs $storage /mnt/KSS
 btrfs subv create /mnt/KSS/Media
 btrfs subv create /mnt/KSS/Documents
 btrfs subv create /mnt/KSS/Learnings
 btrfs subv create /mnt/KSS/backUps
 
-genfstab -U / >> /etc/fstab
 
-echo -e "${ERROR} check fstab now${RESET}"
 
 
 # add a user
@@ -159,30 +162,32 @@ su -c $shadow_clone3 -s /bin/sh $user
 print '\033c'
 
 # X11
-pacman -Syu --no-confirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xrandr
+pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xrandr
 
 # Dev Tools
-pacman --no-confirm rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
+pacman --noconfirm rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
 
 # Security Tools
-pacman --no-confirm nginx nmap nmon steghide tlp ufw whois wipe metasploit
+pacman --noconfirm nginx nmap nmon steghide tlp ufw whois wipe metasploit
 
 # Libraries
-pacman --no-confirm calcurse openssh libxft libxinerama openssl
+pacman --noconfirm calcurse openssh libxft libxinerama openssl
 
 # Sys Monitor
-pacman --no-confirm at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
+pacman --noconfirm at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
 
 # Applications
-pacman --no-confirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp ani-cli asciiquarium magnus sxiv zathura transmission upscyal-bin onlyoffice-bin qutebrowser google-chrome-stable firefox kdenlive obs-studio android-studio
+pacman --noconfirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp ani-cli asciiquarium magnus sxiv zathura transmission upscyal-bin onlyoffice-bin qutebrowser google-chrome-stable firefox kdenlive obs-studio android-studio
 
 # Miscellaneous
-pacman --no-confirm sl cava tty-clock wtf fastfetch neofetch cbonsai cowsay figlet lolcat pfetch uwufetch pamixer pavucontrol hollywood
+pacman --noconfirm sl cava tty-clock wtf fastfetch neofetch cbonsai cowsay figlet lolcat pfetch uwufetch pamixer pavucontrol hollywood
 
 # Fonts
-pacman --no-confirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
+pacman --noconfirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
 
-
+# since you have arch-install-scripts which includes genfstab 
+genfstab -U / >> /etc/fstab
+echo -e "${ERROR} check fstab now${RESET}"
 
 # setup DWM
 echo -e "${INFO}[INFO]${RESET} Installing DWM"
