@@ -22,14 +22,17 @@ printf '\033c'
 echo "Welcome To  ${SKY_BLUE}Warlord's${RESET} ${RED}Arch Installer${RESET}"
 
 # Increase parallel downloads from 5 to 15
+echo -e "${NOTE}[NOTE]${NOTE} increasing parallel downloads in pacman"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads =15/" /etc/pacman.conf
 
 
 # Download the latest keyring
+echo -e "${NOTE}[NOTE]${NOTE} downloading latest arch-keyring"
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 
 # Sync Time and Date
+echo -e "${NOTE}[NOTE]${NOTE} setting up date and time"
 timedatectl set-ntp true
 
 # Partitions
@@ -39,7 +42,7 @@ echo -e "\n Enter the drive: "
 read drive
 
 echo -e "\n make ${BLUE}EFI${RESET}, ${BLUE}ROOT${RESET} and ${BLUE}STORAGE${RESET} paritions ${GREEN}[OPTIONAL]: SWAP${RESET}"
-cf $drive
+cfdisk $drive
 
 # Format root partition
 echo -e "Enter the ${YELLOW}root${RESET} parition: "
@@ -68,29 +71,7 @@ mount $efi /mnt/boot
 # Base Install [ESSENTIALS]
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector
 
-# X11
-pacstrap -K /mnt xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xrandr
-
-# Dev Tools
-pacstrap -K /mnt rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip 7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
-
-# Security Tools
-pacstrap -K /mnt nginx nmap nmon steghide tlp ufw whois wipe meteasploit
-
-# Libraries
-pacstrap -K /mnt calcurse openssh libxft libxinerama openssl
-
-# Sys Monitor
-pacstrap -K /mnt at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
-
-# Applications
-pacstrap -K /mnt ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp ani-cli asciiquarium magnus sxiv zathura transmission upscyal-bin onlyoffice-bin qutebrowser google-chrome-stable firefox kdenlive obs-studio android-studio
-
-# Miscellaneous
-pacstrap -K /mnt sl cava tty-clock wtf fastfetch neofetch cbonsai cowsay figlet lolcat pfetch uwufetch pamixer pavucontrol hollywood
-
-# Fonts
-pacstrap -K /mnt ttf-jetbrains-mono ttf-jetbrains-mono-nerrd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
+# Remaining packages are installed in the chroot environment
 
 # genfstab
 genfstab -U  /mnt > /mnt/etc/fstab
@@ -177,6 +158,32 @@ su -c $shadow_clone3 -s /bin/sh $user
 # userSetup
 print '\033c'
 
+# X11
+pacman -Syu --no-confirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xrandr
+
+# Dev Tools
+pacman --no-confirm rsync syncthing tailscale scrcpy scrot secure-delete tmux tree auto-cpufreq barrier neovim vim vimv git git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
+
+# Security Tools
+pacman --no-confirm nginx nmap nmon steghide tlp ufw whois wipe metasploit
+
+# Libraries
+pacman --no-confirm calcurse openssh libxft libxinerama openssl
+
+# Sys Monitor
+pacman --no-confirm at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
+
+# Applications
+pacman --no-confirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp ani-cli asciiquarium magnus sxiv zathura transmission upscyal-bin onlyoffice-bin qutebrowser google-chrome-stable firefox kdenlive obs-studio android-studio
+
+# Miscellaneous
+pacman --no-confirm sl cava tty-clock wtf fastfetch neofetch cbonsai cowsay figlet lolcat pfetch uwufetch pamixer pavucontrol hollywood
+
+# Fonts
+pacman --no-confirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
+
+
+
 # setup DWM
 echo -e "${INFO}[INFO]${RESET} Installing DWM"
 cd /mnt/KSS/backUps/archinstall/dwm/ 
@@ -232,4 +239,4 @@ git clone https://aur.archlinux.org/aur.git
 cd aur 
 makepkg -fsri
 # to verify the following 
-# yay -S google-chrome-stable onlyoffice-bin upscyal-bin
+# yay -S google-chrome-stable onlyoffice-bin upscyal-bin ani-cli
