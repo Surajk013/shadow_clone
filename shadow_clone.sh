@@ -201,9 +201,12 @@ pacman -S --noconfirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code n
 genfstab -U / >> /etc/fstabdelete 
 echo -e "${ERROR} check fstab now${RESET}"
 cat /etc/fstab 
+
+# now that you have libvert installed
+usermod -aG libvert $user 
 sleep 10
 
-# setup DWM
+# download DWM
 echo -e "${INFO}[INFO]${RESET} Installing DWM"
 mkdir -p /mnt/KSS/backUps/archinstall/dwm/ 
 cd /mnt/KSS/backUps/archinstall/dwm/ 
@@ -237,7 +240,7 @@ echo -e "${OK}[OK]${RESET} scripts updated"
 finalFile=/home/$user/final.sh
 sed '1,/^# final$/d' `basename $0`> $finalFile
 chmod +x $finalFile
-echo -e "run $finalFile with sudo privleges to finish setup"
+echo -e "run $finalFile as $user with sudo privleges to finish setup"
 exit
 
 # final
@@ -249,6 +252,13 @@ makepkg -fsri
 # Downloading AUR packages
 yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio 
 
+# setting up DWM 
+cd /mnt/KSS/backUps/archinstall/dwm/ 
+cd dwm && make clean install && 
+cd ../st && make clean install && 
+cd ../dmenu && make clean install && 
+cd ../dwmblocks && make clean install 
+echo -e "DWM setup done"
 
 # setting up Hyprland
 echo -e "${INFO}[INFO]${RESET} Installing Hyprland in 10 seconds \n 
