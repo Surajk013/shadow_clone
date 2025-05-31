@@ -155,7 +155,7 @@ echo "${INFO}System setup finished"
 echo "${GREEN}Setting up user"
 
 # setting up user
-shadow_clone3=/home/$user/.shadow_clone3.sh
+shadow_clone3=/home/$user/shadow_clone3.sh
 sed '1,/^# userSetup$/d' shadow_clone2.sh > $shadow_clone3
 chown $user:$user $shadow_clone3
 chmod +x $shadow_clone3
@@ -234,7 +234,7 @@ echo -e "${OK}[OK]${RESET} scripts updated"
 
 
 
-finalFile=./home/$user/final.sh
+finalFile=/home/$user/final.sh
 sed '1,/^# final$/d' `basename $0`> $finalFile
 chmod +x $finalFile
 echo -e "run $finalFile with sudo privleges to finish setup"
