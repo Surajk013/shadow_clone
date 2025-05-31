@@ -134,6 +134,11 @@ btrfs subv create /mnt/KSS/Learnings
 btrfs subv create /mnt/KSS/backUps
 mkdir -p /mnt/KSS/.btrfssnapshots/
 
+mount $storage /mnt/KSS/Media 
+mount $storage /mnt/KSS/Documents
+mount $storage /mnt/KSS/backUps
+mount $storage /mnt/KSS/Learnings
+
 
 
 
@@ -195,6 +200,8 @@ pacman -S --noconfirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code n
 # since you have arch-install-scripts which includes genfstab 
 genfstab -U / >> /etc/fstabdelete 
 echo -e "${ERROR} check fstab now${RESET}"
+cat /etc/fstab 
+sleep 10
 
 # setup DWM
 echo -e "${INFO}[INFO]${RESET} Installing DWM"
@@ -212,26 +219,38 @@ echo -e "${OK}[OK]${RESET} DWM successfully installed"
 
 homeDir=/home/$user/
 cd $homeDir
+sleep 2 
+echo -e "\n\nthe user variable holds: ${user}"
+sleep 10
 
 # setup scripts 
 echo -e "${INFO}[INFO]${RESET} Downloading scripts"
 git clone "${myGithub}scripts" 
-cp -t ${homeDir}/scripts/*  /bin/
+cp -r ${homeDir}/scripts/*  /bin/
+cp -r /bin/cpu/* /bin/ 
+rm -rf /bin/cpu
 cp ${homeDir}/scripts/cpu/* /bin/
 echo -e "${OK}[OK]${RESET} scripts updated"
 
-# setup myDots 
-echo -e "${INFO}[INFO]${RESET} Downloading dots"
-git clone "${myGithub}dot-files"
-cd ${homeDir}/dot-files/
-mkdir -p "${homeDir}/.config/tmux" "${homeDir}/.config/qutebrowser" "${homeDir}/.config/kitty/"
-cp .tmux.conf "${homeDir}.config/tmux/"
-cp config.py "${homeDir}.config/qutebrowser/"
-cp kitty.conf "${homeDir}.config/kitty/"
-cp .zshrc .vimrc "${homeDir}/"
-echo -e"${OK}[OK]${RESET} dots updated"
 
-# setup Hyprland
+
+finalFile=./home/$user/final.sh
+sed '1,/^# final$/d' `basename $0`> $finalFile
+chmod +x $finalFile
+echo -e "run $finalFile with sudo privleges to finish setup"
+exit
+
+# final
+myGithub=https://github.com/surajk013/
+# setting up AUR
+git clone https://aur.archlinux.org/aur.git
+cd aur 
+makepkg -fsri
+# Downloading AUR packages
+yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio 
+
+
+# setting up Hyprland
 echo -e "${INFO}[INFO]${RESET} Installing Hyprland in 10 seconds \n 
          Please fill prompts \n 
          ${RED}DO NOT REBOOT${RESET} even on prompt"
@@ -242,14 +261,18 @@ done
 
 sleep 10
 
+
 git clone https://github.com/Jakoolit/arch-hyprland
 cd arch-hyprland
 ./install.sh
 
-# setting up AUR
-cd $homeDir
-git clone https://aur.archlinux.org/aur.git
-cd aur 
-makepkg -fsri
-# to verify the following 
-yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio 
+# setup myDots 
+echo -e "${INFO}[INFO]${RESET} Downloading dots"
+git clone "${myGithub}dot-files"
+cd ${home}/dot-files/
+mkdir -p "${home}/.config/tmux" "${home}/.config/qutebrowser" "${home}/.config/kitty/"
+cp .tmux.conf "${home}.config/tmux/"
+cp config.py "${home}.config/qutebrowser/"
+cp kitty.conf "${home}.config/kitty/"
+cp .zshrc .vimrc "${home}/"
+echo -e"${OK}[OK]${RESET} dots updated"
