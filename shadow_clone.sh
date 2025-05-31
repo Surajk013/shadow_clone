@@ -69,7 +69,7 @@ mkdir -p /mnt/boot
 mount $efi /mnt/boot
 
 # Base Install [ESSENTIALS]
-pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git
+pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
 
 # Remaining packages are installed in the chroot environment
 
@@ -161,6 +161,12 @@ exit
 # userSetup
 printf '\033c'
 echo -e "\n\n\n\n$(whoami)\n\n\n\n"
+
+# setting up grub 
+echo -e "\n\n${INF0}[ INFO ]${RESET} setting up GRUB"
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+echo -e "\n\n${INFO}[ INFO ]${RESET} GRUB setup complete"
 
 # X11
 pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xorg-xrandr
