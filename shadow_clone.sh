@@ -429,7 +429,7 @@ printf '\033c'
 echo -e "${INFO} setting ${WARNING}YAY${RESET} ${MAGENTA}aur${RESET}"
 sleep 3
 git clone https://aur.archlinux.org/yay.git
-cd aur 
+cd yay 
 makepkg -fsri
 echo -e "${OK} ${WARNING}YAY${RESET} ${MAGENTA}aur${RESET} setup complete."
 sleep 3
