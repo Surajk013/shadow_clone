@@ -491,6 +491,9 @@ printf '\033c'
 echo -e "${INFO} Downloading ${WARNING}Dots${RESET}"
 sleep 1
 git clone "${myGithub}dot-files"
+cd $(home)/.config/hypr/
+cp configs/Keybinds.conf configs/Keybinds.conf.bak 
+cp UserConfigs/UserKeybinds.conf UserConfigs/UserKeybinds.conf.bak
 cd $(home)/.config/
 mkdir tmux qutebrowser kitty nvim gtk-3.0 
 cd $(home)/dot-files/
