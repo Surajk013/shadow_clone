@@ -154,7 +154,8 @@ pfetch
 hollywood
 ani-cli
 magnus
-transmission
+transmission-gtk
+transmission-qt
 upscayl-bin
 onlyoffice-bin
 google-chrome-stable

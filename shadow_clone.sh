@@ -1,5 +1,8 @@
 # == Warlord's Arch Installer == #
+
+
 # Part 1 - shadow_clone
+
 OK="$(tput setaf 2)[OK]$(tput sgr0)"
 ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
 NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
@@ -18,7 +21,6 @@ RESET="$(tput sgr0)"
 
 
 printf '\033c'
-
 echo "Welcome To  ${SKY_BLUE}Warlord's${RESET} ${RED}Arch Installer${RESET}\n\n"
 
 # Increase parallel downloads from 5 to 15
@@ -51,7 +53,7 @@ lsblk
 echo -e "\n${NOTE} Enter the drive: "
 read drive
 
-echo -e "\n${NOTE} Make ${BLUE}EFI${RESET}, ${BLUE}ROOT${RESET} and ${BLUE}STORAGE${RESET} paritions\n${GREEN}[OPTIONAL] : SWAP${RESET}"
+echo -e "\n${NOTE} Make \n${BLUE}1.EFI${RESET}\n${BLUE}2.ROOT${RESET}\n${BLUE}3.STORAGE${RESET}\n paritions\n\n${GREEN}[OPTIONAL] : SWAP${RESET}"
 cfdisk $drive
 
 # Format root partition
@@ -67,7 +69,7 @@ mkfs.vfat -F 32 $efi
 echo -e "${OK} efi formatted"
 echo -e "${INFO} Peronal storage will be setup after installing btrfs inside the acutal fs [ chroot ]"
 
-# Create SWAP // if it is created
+# Mount SWAP // if it is created
 read -p "Did you create a SWAP parition? [y/n]: " swapc
 if [[ $swapc = y ]] ; then
   echo "Enter Swap partition: "
@@ -90,7 +92,6 @@ sleep 1
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
 echo -e"${OK} Base installed"
 sleep 1
-
 # Remaining packages are installed in the chroot environment
 
 # genfstab
@@ -127,7 +128,6 @@ SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
 
 printf '\033c'
-
 echo -e "\n${INFO} Inside the chroot [ actual root directory ]"
 
 # 5 to 15 concurrency downloads
@@ -196,9 +196,6 @@ mkfs.btrfs -f $storage
 echo -e "\n${OK} $storage format with btrfs fs"
 
 # setting up BTRFS 
-
-
-# mount Btrfs storage partition
 echo -e "\n${INFO} Creating mount point and subvolumes"
 mount -t btrfs $storage /mnt/KSS
 btrfs subv create /mnt/KSS/Media
@@ -206,7 +203,7 @@ btrfs subv create /mnt/KSS/Documents
 btrfs subv create /mnt/KSS/Learnings
 btrfs subv create /mnt/KSS/backUps
 mkdir -p /mnt/KSS/.btrfssnapshots/
-
+# mount Btrfs storage partition
 mount $storage /mnt/KSS/Media 
 mount $storage /mnt/KSS/Documents
 mount $storage /mnt/KSS/backUps
@@ -255,6 +252,7 @@ BLUE="$(tput setaf 4)"
 RED="$(tput setaf 1)"
 SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
+
 printf '\033c'
 echo -e "${INFO} Building user environment"
 sleep 2
@@ -360,15 +358,14 @@ done
 
 echo -e "${OK} DWM successfully downloaded"
 
-
 homeDir=/home/$user/
 cd $homeDir
-sleep 2 
 
 # setup scripts 
 printf '\033c'
+sleep 1 
 echo -e "${INFO} Downloading scripts . . ."
-sleep 1
+sleep 2
 git clone "${myGithub}scripts" 
 cp -r ${homeDir}/scripts/*  /bin/
 cp -r /bin/cpu/* /bin/ 
@@ -377,7 +374,7 @@ cp ${homeDir}/scripts/cpu/* /bin/
 echo -e "${OK} Scripts updated."
 sleep 1
 
-
+# Base setup complete - setting up final script
 printf '\033c'
 echo -e "${OK} Base user setup done."
 sleep 2
@@ -405,6 +402,7 @@ BLUE="$(tput setaf 4)"
 RED="$(tput setaf 1)"
 SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
+
 printf '\033c'
 echo -e "${INFO} Final build for the user [FINISHING TOUCH]"
 myGithub=https://github.com/surajk013/
@@ -422,10 +420,10 @@ echo -e "${OK} YAY aur setup complete."
 printf '\033c'
 echo -e "${INFO} Downloading aur packages"
 sleep 1
-yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio materia-dark-compact
+yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission-gtk transmission-qt google-chrome-stable onlyoffice-bin upscyal-bin android-studio materia-dark-compact
 echo -e "${OK} aur packages BUILT."
 
-# setting up DWM 
+# installing DWM 
 printf '\033c'
 echo -e "${INFO} Installing DWM"
 sleep 1
@@ -442,20 +440,23 @@ echo -e "${INFO} Installing Hyprland in 10 seconds \n
          Please fill prompts \n 
          ${RED}DO NOT REBOOT${RESET} even on prompt"
 
-
 printf '\033c'
 echo -e "${INFO} Cloning Jakoolit's Arch-Hyprland . . ."
 git clone https://github.com/Jakoolit/arch-hyprland
 cd arch-hyprland
+
 echo -e "${OK} Cloned."
 sleep 1 
 for ((i=0;i<10;i++)); do 
   echo "${RED}ENTER PROMPT${RESET}"
 done
 sleep 1 
+
 echo -e "${INFO} Installing now. . ."
 ./install.sh
 echo -e "${OK} Hyprland Installation Complete."
+
+# Setting up Hyprland dots
 sleep 1
 cd $(home)/.config/hypr/UserScripts/
 sed -i "s/INTERVAL=.*/INTERVAL=7200/" WallpaperAutoChange.sh
@@ -482,28 +483,29 @@ printf '\033c'
 echo -e "${INFO} Downloading dots"
 sleep 1
 git clone "${myGithub}dot-files"
+cd $(home)/.config/
+mkdir tmux qutebrowser kitty nvim gtk-3.0 
 cd $(home)/dot-files/
-mkdir -p "$(home)/.config/tmux" "$(home)/.config/qutebrowser" "$(home)/.config/kitty/"
-cp .tmux.conf "$(home)/.config/tmux/"
-cp config.py "$(home)/.config/qutebrowser/"
-cp kitty.conf "$(home)/.config/kitty/"
+cp -r . "$(home)/.config/"
+cp -r syncthing "$(home)/.local/state/"
 cp .zshrc .vimrc "$(home)/"
-mkdir -p $(home)/.config/nvim/
-cp -r nvim "$(home)/.config/nvim/"
-mkdir -p $(home)/.config/gtk-3.0
-cp -r gtk-3.0 "$(home)/.config/"
-cp -r config.xml "$(home)/.local/state/config.xml"
 echo -e "${OK} Syncthing Setup Complete."
 echo -e "${OK} dots updated"
 sleep 1 
+
+# Final check
 echo -e "${INFO} setup neovim"
 sleep 1
 nvim
 echo -e "${NOTE} Check Tailscale and Syncthing "
-sleep 1
-echo -e "${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 2
-echp -ne "${ORANGE} Welcome to Warlord's Arch Install${RESET}_"
+
+# BYE !
+printf '\033c'
+echo -e "${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 3
+echp -ne "${ORANGE} Welcome to Warlord's Arch Install${RESET}_"
+sleep 5
+printf '\033c'
 Hyprland
 sleep 2
