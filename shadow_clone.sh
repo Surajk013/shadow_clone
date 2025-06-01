@@ -500,7 +500,9 @@ nvim
 echo -e "${NOTE} Check Tailscale and Syncthing "
 sleep 2
 
+
 # BYE !
+
 printf '\033c'
 echo -e "${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 3
