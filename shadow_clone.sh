@@ -422,7 +422,7 @@ echo -e "${OK} YAY aur setup complete."
 printf '\033c'
 echo -e "${INFO} Downloading aur packages"
 sleep 1
-yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio 
+yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission google-chrome-stable onlyoffice-bin upscyal-bin android-studio materia-dark-compact
 echo -e "${OK} aur packages BUILT."
 
 # setting up DWM 
@@ -465,6 +465,18 @@ cd $(home)/.config/hypr/scripts/
 sed -i "s/^dir=.*/dir=\/mnt\/KSS\/backUps\/poco\/dcim\/screenshots\//" ScreenShot.sh
 echo -e "${OK} Screenshot dir updated."
 
+# setting up tailscale and syncthing
+printf '\033c'
+echo -e "${INFO} Setting up Tailscale "
+sleep 1
+sudo tailscale up 
+sleep 1
+sudo tailscale --ssh up
+echo -e "${OK} Tailscale Setup Complete."
+echo -e "${INFO} Setting up Syncthing. . ."
+syncthing
+echo -e "${OK} Syncthing started [ will copy config.xml from dots ]"
+
 # setup myDots 
 printf '\033c'
 echo -e "${INFO} Downloading dots"
@@ -478,12 +490,16 @@ cp kitty.conf "$(home)/.config/kitty/"
 cp .zshrc .vimrc "$(home)/"
 mkdir -p $(home)/.config/nvim/
 cp -r nvim "$(home)/.config/nvim/"
+mkdir -p $(home)/.config/gtk-3.0
+cp -r gtk-3.0 "$(home)/.config/"
+cp -r config.xml "$(home)/.local/state/config.xml"
+echo -e "${OK} Syncthing Setup Complete."
 echo -e "${OK} dots updated"
 sleep 1 
 echo -e "${INFO} setup neovim"
 sleep 1
 nvim
-echo -e "${NOTE} Setup Tailscale and Syncthing from archinstall/Syncthing/ filemangaer "
+echo -e "${NOTE} Check Tailscale and Syncthing "
 sleep 1
 echo -e "${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 2

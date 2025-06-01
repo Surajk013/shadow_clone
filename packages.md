@@ -163,3 +163,4 @@ auto-cpufreq
 barrier
 vimv
 steghide
+materia-dark-compact
