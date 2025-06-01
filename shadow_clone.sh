@@ -500,7 +500,15 @@ cd $HOME/.config/
 mkdir tmux qutebrowser kitty nvim gtk-3.0 
 cd $HOME/dot-files/
 cp -r . "$HOME/.config/"
-cp -r syncthing "$HOME/.local/state/"
+echo -e "Is this for Desktop? [y/n]: "
+read deskch
+
+if [[ "$deskch" = "y" ]]; then
+  cp -r syncthing/pc/* "$HOME/.local/share/syncthing/."
+else
+  cp -r syncthing/laptop/* "$HOME/.local/state/syncthing/."
+fi
+
 cp .zshrc .vimrc "$HOME/"
 echo -e "${OK} Syncthing Setup Complete."
 echo -e "${OK} dots updated"
