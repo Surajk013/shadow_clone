@@ -256,6 +256,8 @@ RESET="$(tput sgr0)"
 printf '\033c'
 echo -e "${INFO} Building ${WARNING}user environment${RESET}"
 sleep 2
+echo -e "Enter user name: "
+read user
 
 # setting up grub 
 echo -e "\n${INF0} Setting up ${WARNING}GRUB${RESET}"
@@ -458,16 +460,16 @@ echo -e "${OK} ${WARNING}Hyprland${RESET} Installation Complete."
 
 # Setting up Hyprland dots
 sleep 1
-cd $(home)/.config/hypr/UserScripts/
+cd $HOME/.config/hypr/UserScripts/
 sed -i "s/INTERVAL=.*/INTERVAL=7200/" WallpaperAutoChange.sh
 sed -i "s/wallDIR=.*/wallDIR=\/mnt\/KSS\/Media\/wallpapers\//" WallpaperRandom.sh WallpaperSelect.sh
 echo -e "${OK} ${WARNING}Wall dir${RESET} + ${WARNING}Interval${RESET} updated."
 
-cd $(home)/.config/hypr/scripts/ 
+cd $HOME/.config/hypr/scripts/ 
 sed -i "s/^dir=.*/dir=\/mnt\/KSS\/backUps\/poco\/dcim\/screenshots\//" ScreenShot.sh
 echo -e "${OK} ${WARNING}Screenshot dir${RESET} updated."
 
-cd $(home)/.config/hypr/UserScripts/ 
+cd $HOME/.config/hypr/UserScripts/ 
 sed -i "s/^city=.*/city=bengaluru/" Weather.sh
 
 # setting up tailscale and syncthing
@@ -491,15 +493,15 @@ printf '\033c'
 echo -e "${INFO} Downloading ${WARNING}Dots${RESET}"
 sleep 1
 git clone "${myGithub}dot-files"
-cd $(home)/.config/hypr/
+cd $HOME/.config/hypr/
 cp configs/Keybinds.conf configs/Keybinds.conf.bak 
 cp UserConfigs/UserKeybinds.conf UserConfigs/UserKeybinds.conf.bak
-cd $(home)/.config/
+cd $HOME/.config/
 mkdir tmux qutebrowser kitty nvim gtk-3.0 
-cd $(home)/dot-files/
-cp -r . "$(home)/.config/"
-cp -r syncthing "$(home)/.local/state/"
-cp .zshrc .vimrc "$(home)/"
+cd $HOME/dot-files/
+cp -r . "$HOME/.config/"
+cp -r syncthing "$HOME/.local/state/"
+cp .zshrc .vimrc "$HOME/"
 echo -e "${OK} Syncthing Setup Complete."
 echo -e "${OK} dots updated"
 sleep 1 
