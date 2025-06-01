@@ -525,7 +525,9 @@ sleep 2
 # BYE !
 
 printf '\033c'
-echo -e "${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
+echo -e "${RED} DO NOT FORGET TO SETUP THE SSH AND GPG${RESET}_"
+sleep 5
+echo -e "\n${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 3
 echp -ne "${ORANGE} Welcome to Warlord's Arch Install${RESET}_"
 sleep 5
