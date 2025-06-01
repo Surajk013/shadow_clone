@@ -87,7 +87,7 @@ echo -e"${OK} Mounted ${MAGENTA}ROOT${RESET} and ${MAGENTA}EFI${RESET}"
 
 # Base Install [ESSENTIALS]
 printf '\033c'
-echo -e"${INFO} Installing ${WARNING}Base${RESET}"
+echo -e "${INFO} Installing ${WARNING}Base${RESET}"
 sleep 1
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
 echo -e"${OK} Base installed"
