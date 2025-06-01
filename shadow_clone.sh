@@ -462,9 +462,13 @@ cd $(home)/.config/hypr/UserScripts/
 sed -i "s/INTERVAL=.*/INTERVAL=7200/" WallpaperAutoChange.sh
 sed -i "s/wallDIR=.*/wallDIR=\/mnt\/KSS\/Media\/wallpapers\//" WallpaperRandom.sh WallpaperSelect.sh
 echo -e "${OK} ${WARNING}Wall dir${RESET} + ${WARNING}Interval${RESET} updated."
+
 cd $(home)/.config/hypr/scripts/ 
 sed -i "s/^dir=.*/dir=\/mnt\/KSS\/backUps\/poco\/dcim\/screenshots\//" ScreenShot.sh
 echo -e "${OK} ${WARNING}Screenshot dir${RESET} updated."
+
+cd $(home)/.config/hypr/UserScripts/ 
+sed -i "s/^city=.*/city=bengaluru/" Weather.sh
 
 # setting up tailscale and syncthing
 printf '\033c'
