@@ -85,7 +85,7 @@ fi
 mount $root /mnt 
 mkdir -p /mnt/boot
 mount $efi /mnt/boot
-echo -e"${OK} Mounted ${MAGENTA}ROOT${RESET} and ${MAGENTA}EFI${RESET}"
+echo -e "${OK} Mounted ${MAGENTA}ROOT${RESET} and ${MAGENTA}EFI${RESET}"
 sleep 3
 
 # Base Install [ESSENTIALS]
@@ -93,15 +93,9 @@ printf '\033c'
 echo -e "${INFO} Installing ${WARNING}Base${RESET}"
 sleep 3
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
-echo -e"${OK} Base installed"
+echo -e "${OK} Base installed"
 sleep 3
 # Remaining packages are installed in the chroot environment
-#
-# # genfstab
-# printf '\033c'
-# echo -e "${INFO} Generating ${WARNING}fstab${RESET}"
-# genfstab -U  /mnt > /mnt/etc/fstab
-# echo -e"${OK} fstab generated"
 
 # chrooting [ and directing to a different file | for a new shell ]
 echo -e "${OK}${SKY_BLUE} Base Arch Installed${RESET}"
@@ -349,14 +343,14 @@ sleep 1
 printf '\033c'
 echo -e "${INFO} generating ${WARNING}fstab${RESET} . . ."
 sleep 3
-genfstab -U / >> /etc/fstab 
+genfstab -U / > /etc/fstab 
 echo -e "${OK} ${WARNING}fstab${RESET} setup complete."
 echo -e "${ERROR} check fstab now${RESET}"
 sleep 3
 vim /etc/fstab 
 
 # now that you have libvert installed
-usermod -aG libvert $user 
+usermod -aG libvirt $user 
 echo -e "${OK} added $user to libvert"
 sleep 10
 
