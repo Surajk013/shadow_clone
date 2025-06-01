@@ -267,71 +267,71 @@ echo -e "\n${OK} GRUB setup complete"
 sleep 1
 
 # X11
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}X11${RESET} . . ."
 sleep 1
 pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xorg-xrandr
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}X11${RESET} setup complete"
 
 # Dev Tools
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Dev Tools${RESET} . . ."
 sleep 1
 pacman -S --noconfirm rsync syncthing tailscale scrcpy scrot tmux tree neovim vim git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}Dev Tools${RESET} setup complete"
 
 # Security Tools
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Security tools${RESET} . . ."
 sleep 1
 pacman -S --noconfirm nginx nmap nmon tlp ufw whois wipe metasploit
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}Security Tools${RESET} setup complete."
 
 # Libraries
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Libraries${RESET} . . ."
 sleep 1
 pacman -S --noconfirm calcurse openssh libxft libxinerama openssl
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}Libraries${RESET} setup complete."
 
 # Sys Monitor
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}System Monitoring${RESET} . . ."
 sleep 1
 pacman -S --noconfirm at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}System Monitoring${RESET} setup Complete."
 
 # Applications
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Applications${RESET} . . ."
 sleep 1
 pacman -S --noconfirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp asciiquarium sxiv zathura qutebrowser firefox kdenlive obs-studio 
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}Applications${RESET} setup complete."
 
 # Miscellaneous
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Miscellaneous${RESET} . . ."
 sleep 1
 pacman -S --noconfirm sl cava fastfetch cowsay figlet lolcat uwufetch pamixer pavucontrol 
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}Miscellaneous${RESET} setup complete."
 
 # Fonts
-print '\033c'
+printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Fonts${RESET} . . ."
 sleep 1
 pacman -S --noconfirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
-print '\033c'
+printf '\033c'
 echo -e "${OK} ${WARNING}Fonts${RESET} setup complete."
 
 # since you have arch-install-scripts which includes genfstab 
-print '\033c'
+printf '\033c'
 echo -e "${INFO} generating ${WARNING}fstab${RESET} . . ."
 sleep 1
 genfstab -U / >> /etc/fstab 
