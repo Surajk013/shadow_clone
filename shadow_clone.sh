@@ -94,6 +94,8 @@ echo -e "${INFO} Installing ${WARNING}Base${RESET}"
 sleep 3
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
 echo -e "${OK} Base installed"
+systemctl enable NetworkManager 
+systemctl start NetworkManager
 sleep 3
 # Remaining packages are installed in the chroot environment
 
@@ -258,6 +260,9 @@ printf '\033c'
 echo -e "${INFO} Building ${WARNING}user environment${RESET}"
 echo -e "Enter user name: "
 read user
+echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo -e "${INFO} Granted wheels on sudoers file"
+sleep 3
 
 # setting up grub 
 echo -e "\n${INF0} Setting up ${WARNING}GRUB${RESET}"
@@ -423,7 +428,7 @@ myGithub=https://github.com/surajk013/
 printf '\033c'
 echo -e "${INFO} setting ${WARNING}YAY${RESET} ${MAGENTA}aur${RESET}"
 sleep 3
-git clone https://aur.archlinux.org/aur.git
+git clone https://aur.archlinux.org/yay.git
 cd aur 
 makepkg -fsri
 echo -e "${OK} ${WARNING}YAY${RESET} ${MAGENTA}aur${RESET} setup complete."
@@ -517,8 +522,8 @@ echo -e "${INFO} Downloading ${WARNING}Dots${RESET}"
 sleep 3
 git clone "${myGithub}dot-files"
 cd $HOME/.config/hypr/
-cp configs/Keybinds.conf configs/Keybinds.conf.bak 
-cp UserConfigs/UserKeybinds.conf UserConfigs/UserKeybinds.conf.bak
+cp hypr/configs/Keybinds.conf configs/Keybinds.conf.bak 
+cp hypr/UserConfigs/UserKeybinds.conf UserConfigs/UserKeybinds.conf.bak
 cd $HOME/.config/
 mkdir tmux qutebrowser kitty nvim gtk-3.0 
 cd $HOME/dot-files/
@@ -550,11 +555,11 @@ sleep 7
 # BYE !
 
 printf '\033c'
-echo -e "${RED} DO NOT FORGET TO SETUP THE SSH AND GPG${RESET}_"
+echo -ne "${RED} DO NOT FORGET TO SETUP THE SSH AND GPG${RESET}"
 sleep 7
 echo -e "\n${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 3
-echp -ne "${ORANGE} Welcome to Warlord's Arch Install${RESET}_"
+echo -ne "${ORANGE} Welcome to Warlord's Arch Install${RESET}"
 sleep 5
 printf '\033c'
 Hyprland
