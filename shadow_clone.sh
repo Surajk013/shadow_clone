@@ -24,7 +24,7 @@ printf '\033c'
 echo "Welcome To  ${SKY_BLUE}Warlord's${RESET} ${RED}Arch Installer${RESET}\n\n"
 
 # Increase parallel downloads from 5 to 15
-echo -e "\n${INFO} Increasing parallel downloads in pacman . . ."
+echo -e "\n${INFO} Increasing ${WARNING}parallel downloads${RESET} in pacman . . ."
 sleep 1
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads =15/" /etc/pacman.conf
 echo -e "\n${OK} DONE"
@@ -32,7 +32,7 @@ sleep 1
 
 # Download the latest keyring
 printf '\033c'
-echo -e "\n${INFO} Downloading latest arch-keyring \n"
+echo -e "\n${INFO} Downloading latest ${WARNING}arch-keyring${RESET} \n"
 sleep 1
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
@@ -41,7 +41,7 @@ sleep 1
 
 # Sync Time and Date
 printf '\033c'
-echo -e "\n${INFO} Setting up Network Time Protocol"
+echo -e "\n${INFO} Setting up ${WARNING}Network Time Protocol${RESET}"
 timedatectl set-ntp true
 echo -e "\n${OK} DONE"
 sleep 1
@@ -67,7 +67,7 @@ echo -e "\n${NOTE} Enter the ${YELLOW}EFI${RESET} partition: "
 read efi 
 mkfs.vfat -F 32 $efi
 echo -e "${OK} efi formatted"
-echo -e "${INFO} Peronal storage will be setup after installing btrfs inside the acutal fs [ chroot ]"
+echo -e "${INFO} Peronal storage will be setup after installing ${WARNING}btrfs${RESET} inside the acutal fs [ chroot ]"
 
 # Mount SWAP // if it is created
 read -p "Did you create a SWAP parition? [y/n]: " swapc
@@ -87,7 +87,7 @@ echo -e"${OK} Mounted ${MAGENTA}ROOT${RESET} and ${MAGENTA}EFI${RESET}"
 
 # Base Install [ESSENTIALS]
 printf '\033c'
-echo -e"${INFO} Installing base"
+echo -e"${INFO} Installing ${WARNING}Base${RESET}"
 sleep 1
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
 echo -e"${OK} Base installed"
@@ -96,14 +96,14 @@ sleep 1
 
 # genfstab
 printf '\033c'
-echo -e "${INFO} Generating fstab"
+echo -e "${INFO} Generating ${WARNING}fstab${RESET}"
 genfstab -U  /mnt > /mnt/etc/fstab
 echo -e"${OK} fstab generated"
 
 # chrooting [ and directing to a different file | for a new shell ]
 echo -e "${OK}${SKY_BLUE} Base Arch Installed${RESET}"
 sleep 1
-echo -e "${INFO}${RESET} chrooting into the actual system"
+echo -e "${INFO} ${WARNING}chrooting${RESET} into the actual system"
 sleep 2
 sed '1,/^# actualSystem$/d' `basename $0` > /mnt/shadow_clone2.sh
 chmod +x /mnt/shadow_clone2.sh
@@ -131,7 +131,7 @@ printf '\033c'
 echo -e "\n${INFO} Inside the chroot [ actual root directory ]"
 
 # 5 to 15 concurrency downloads
-echo -e "\n${INFO} Increasing parallel downloads in pacman AND setting up mirrors . . ."
+echo -e "\n${INFO} Increasing ${WARNING}parallel downloads${RESET} in pacman AND setting up mirrors . . ."
 sleep 1
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 reflector --country "india" --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
@@ -139,14 +139,14 @@ echo -e "\n${OK} DONE"
 sleep 1
 
 # setting timezone + system clock
-echo -e "\n${INFO} Setting timezone and system clock"
+echo -e "\n${INFO} Setting ${WARNING}timezone${RESET} and ${WARNING}system clock${RESET}"
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
 echo -e "\n${OK} Done"
 sleep 1 
 
 # setting locale
-echo -e "${INFO} Setting locale"
+echo -e "${INFO} Setting ${WARNING}locale${RESET}"
 sleep 1
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
@@ -175,7 +175,7 @@ echo -e "\n${OK} Done"
 
 # build initramfs 
 printf '\033c'
-echo -e "\n${INFO} Building initramfs . . ."
+echo -e "\n${INFO} Building ${WARNING}initramfs${RESET} . . ."
 mkinitcpio -P 
 printf '\033c'
 echo -e "\n${OK} Done"
@@ -189,14 +189,14 @@ passwd
 # Format storage partition
 printf '\033c'
 sleep 1
-echo -e "\n${INFO} Setting up personal storage"
+echo -e "\n${INFO} Setting up ${WARNING}personal storage${RESET}"
 echo -e "Enter the ${YELLOW}storage${RESET} parition: "
 read storage 
 mkfs.btrfs -f $storage
-echo -e "\n${OK} $storage format with btrfs fs"
+echo -e "\n${OK} $storage format with ${WARNING}btrfs${RESET} fs complete."
 
 # setting up BTRFS 
-echo -e "\n${INFO} Creating mount point and subvolumes"
+echo -e "\n${INFO} Creating ${WARNING}mount point${RESET} and ${ORANGE}subvolumes${RESET}"
 mount -t btrfs $storage /mnt/KSS
 btrfs subv create /mnt/KSS/Media
 btrfs subv create /mnt/KSS/Documents
@@ -212,7 +212,7 @@ echo -e "\n${OK} Mounted"
 
 # add a user
 printf '\033c'
-echo -e "\n${INF0} Creating new user"
+echo -e "\n${INF0} Creating ${WARNING}new user${RESET}"
 echo "Enter user: "
 read user 
 useradd -mG wheel,storage,audio,video,power,kvm,input -s /bin/sh $user
@@ -254,11 +254,11 @@ SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
 
 printf '\033c'
-echo -e "${INFO} Building user environment"
+echo -e "${INFO} Building ${WARNING}user environment${RESET}"
 sleep 2
 
 # setting up grub 
-echo -e "\n${INF0} Setting up GRUB"
+echo -e "\n${INF0} Setting up ${WARNING}GRUB${RESET}"
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 echo -e "\n${OK} GRUB setup complete"
@@ -266,74 +266,74 @@ sleep 1
 
 # X11
 print '\033c'
-echo -e "${INFO} Setting up X11 . . ."
+echo -e "${INFO} Setting up ${WARNING}X11${RESET} . . ."
 sleep 1
 pacman -Syu --noconfirm xorg xorg-server xorg-xinit xorg-xsetroot xclip xcompmgr xdotool xwallpaper xorg-xrandr
 print '\033c'
-echo -e "${OK} X11 setup complete"
+echo -e "${OK} ${WARNING}X11${RESET} setup complete"
 
 # Dev Tools
 print '\033c'
-echo -e "${INFO} Setting up Dev Tools . . ."
+echo -e "${INFO} Setting up ${WARNING}Dev Tools${RESET} . . ."
 sleep 1
 pacman -S --noconfirm rsync syncthing tailscale scrcpy scrot tmux tree neovim vim git-lfs arch-install-scripts gcc npm imagemagick inxi jq mosh openbsd-netcat qemu-base qemu-full zram-generator zsh ripgrep unzip p7zip vde2 virt-manager virt-viewer tigervnc umockdev w3m sed feh ffmpeg mariadb 
 print '\033c'
-echo -e "${OK} Dev Tools setup complete"
+echo -e "${OK} ${WARNING}Dev Tools${RESET} setup complete"
 
 # Security Tools
 print '\033c'
-echo -e "${INFO} Setting up Security tools . . ."
+echo -e "${INFO} Setting up ${WARNING}Security tools${RESET} . . ."
 sleep 1
 pacman -S --noconfirm nginx nmap nmon tlp ufw whois wipe metasploit
 print '\033c'
-echo -e "${OK} Security Tools setup complete."
+echo -e "${OK} ${WARNING}Security Tools${RESET} setup complete."
 
 # Libraries
 print '\033c'
-echo -e "${INFO} Setting up Libraries . . ."
+echo -e "${INFO} Setting up ${WARNING}Libraries${RESET} . . ."
 sleep 1
 pacman -S --noconfirm calcurse openssh libxft libxinerama openssl
 print '\033c'
-echo -e "${OK} Libraries setup complete."
+echo -e "${OK} ${WARNING}Libraries${RESET} setup complete."
 
 # Sys Monitor
 print '\033c'
-echo -e "${INFO} Setting up System Monitoring . . ."
+echo -e "${INFO} Setting up ${WARNING}System Monitoring${RESET} . . ."
 sleep 1
 pacman -S --noconfirm at duf dust cpupower hwinfo nvtop htop btop atop powertop smartmontools radeontop
 print '\033c'
-echo -e "${OK} System Monitoring setup Complete."
+echo -e "${OK} ${WARNING}System Monitoring${RESET} setup Complete."
 
 # Applications
 print '\033c'
-echo -e "${INFO} Setting up Applications . . ."
+echo -e "${INFO} Setting up ${WARNING}Applications${RESET} . . ."
 sleep 1
 pacman -S --noconfirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp asciiquarium sxiv zathura qutebrowser firefox kdenlive obs-studio 
 print '\033c'
-echo -e "${OK} Applications setup complete."
+echo -e "${OK} ${WARNING}Applications${RESET} setup complete."
 
 # Miscellaneous
 print '\033c'
-echo -e "${INFO} Setting up Miscellaneous . . ."
+echo -e "${INFO} Setting up ${WARNING}Miscellaneous${RESET} . . ."
 sleep 1
 pacman -S --noconfirm sl cava fastfetch cowsay figlet lolcat uwufetch pamixer pavucontrol 
 print '\033c'
-echo -e "${OK} Miscellaneous setup complete."
+echo -e "${OK} ${WARNING}Miscellaneous${RESET} setup complete."
 
 # Fonts
 print '\033c'
-echo -e "${INFO} Setting up Fonts . . ."
+echo -e "${INFO} Setting up ${WARNING}Fonts${RESET} . . ."
 sleep 1
 pacman -S --noconfirm ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-fira-code noto-fonts noto-fonts-emoji ttf-droid ttf-font-awesome
 print '\033c'
-echo -e "${OK} Fonts setup complete."
+echo -e "${OK} ${WARNING}Fonts${RESET} setup complete."
 
 # since you have arch-install-scripts which includes genfstab 
 print '\033c'
-echo -e "${INFO} generating fstab . . ."
+echo -e "${INFO} generating ${WARNING}fstab${RESET} . . ."
 sleep 1
 genfstab -U / >> /etc/fstab 
-echo -e "${OK} fstab setup complete."
+echo -e "${OK} ${WARNING}fstab${RESET} setup complete."
 echo -e "${ERROR} check fstab now${RESET}"
 sleep 1
 vim /etc/fstab 
@@ -345,7 +345,7 @@ echo -e "${OK} added $user to libvert"
 
 # download DWM
 printf '\033c'
-echo -e "${INFO} Downloading DWM . . ."
+echo -e "${INFO} Downloading ${WARNING}DWM${RESET} . . ."
 sleep 1
 mkdir -p /mnt/KSS/backUps/archinstall/dwm/ 
 cd /mnt/KSS/backUps/archinstall/dwm/ 
@@ -356,7 +356,7 @@ for repo in "${dwm_package[@]}"; do
   git clone "$myGithub$repo"
 done
 
-echo -e "${OK} DWM successfully downloaded"
+echo -e "${OK} ${WARNING}DWM${RESET} successfully downloaded"
 
 homeDir=/home/$user/
 cd $homeDir
@@ -364,19 +364,19 @@ cd $homeDir
 # setup scripts 
 printf '\033c'
 sleep 1 
-echo -e "${INFO} Downloading scripts . . ."
+echo -e "${INFO} Downloading ${WARNING}scripts${RESET} . . ."
 sleep 2
 git clone "${myGithub}scripts" 
 cp -r ${homeDir}/scripts/*  /bin/
 cp -r /bin/cpu/* /bin/ 
 rm -rf /bin/cpu
 cp ${homeDir}/scripts/cpu/* /bin/
-echo -e "${OK} Scripts updated."
+echo -e "${OK} ${WARNING}Scripts${RESET} updated."
 sleep 1
 
 # Base setup complete - setting up final script
 printf '\033c'
-echo -e "${OK} Base user setup done."
+echo -e "${OK} ${WARNING}Base user ${RESET} setup done."
 sleep 2
 
 
@@ -404,44 +404,44 @@ SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
 
 printf '\033c'
-echo -e "${INFO} Final build for the user [FINISHING TOUCH]"
+echo -e "${INFO} ${WARNING}Final build${RESET} for the ${ORANGE}user${RESET} ${MAGENTA}[FINISHING TOUCH]${RESET}"
 myGithub=https://github.com/surajk013/
 
 # setting up AUR
 printf '\033c'
-echo -e "${INFO} setting YAY aur"
+echo -e "${INFO} setting ${WARNING}YAY${RESET} ${MAGENTA}aur${RESET}"
 sleep 1
 git clone https://aur.archlinux.org/aur.git
 cd aur 
 makepkg -fsri
-echo -e "${OK} YAY aur setup complete."
+echo -e "${OK} ${WARNING}YAY${RESET} ${MAGENTA}aur${RESET} setup complete."
 
 # Downloading AUR packages
 printf '\033c'
-echo -e "${INFO} Downloading aur packages"
+echo -e "${INFO} Downloading ${MAGENTA}aur${RESET} ${WARNING}packages${RESET}"
 sleep 1
 yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission-gtk transmission-qt google-chrome-stable onlyoffice-bin upscyal-bin android-studio materia-dark-compact
-echo -e "${OK} aur packages BUILT."
+echo -e "${OK} ${MAGENTA}aur${RESET} ${WARNING}packages${RESET} BUILT."
 
 # installing DWM 
 printf '\033c'
-echo -e "${INFO} Installing DWM"
+echo -e "${INFO} Installing ${WARNING}DWM$RESET}"
 sleep 1
 cd /mnt/KSS/backUps/archinstall/dwm/ 
 cd dwm && make clean install && 
 cd ../st && make clean install && 
 cd ../dmenu && make clean install && 
 cd ../dwmblocks && make clean install 
-echo -e "${OK} DWM installation done"
+echo -e "${OK} ${WARNING}DWM${RESET} installation done"
 
 # setting up Hyprland
 printf '\033c'
-echo -e "${INFO} Installing Hyprland in 10 seconds \n 
+echo -e "${INFO} Installing ${WARNING}Hyprland${RESET} in 10 seconds \n 
          Please fill prompts \n 
          ${RED}DO NOT REBOOT${RESET} even on prompt"
 
 printf '\033c'
-echo -e "${INFO} Cloning Jakoolit's Arch-Hyprland . . ."
+echo -e "${INFO} Cloning ${WARNING}Jakoolit${RESET}'s Arch-Hyprland . . ."
 git clone https://github.com/Jakoolit/arch-hyprland
 cd arch-hyprland
 
@@ -454,33 +454,37 @@ sleep 1
 
 echo -e "${INFO} Installing now. . ."
 ./install.sh
-echo -e "${OK} Hyprland Installation Complete."
+echo -e "${OK} ${WARNING}Hyprland${RESET} Installation Complete."
 
 # Setting up Hyprland dots
 sleep 1
 cd $(home)/.config/hypr/UserScripts/
 sed -i "s/INTERVAL=.*/INTERVAL=7200/" WallpaperAutoChange.sh
 sed -i "s/wallDIR=.*/wallDIR=\/mnt\/KSS\/Media\/wallpapers\//" WallpaperRandom.sh WallpaperSelect.sh
-echo -e "${OK} Wall dir + Interval updated."
+echo -e "${OK} ${WARNING}Wall dir${RESET} + ${WARNING}Interval${RESET} updated."
 cd $(home)/.config/hypr/scripts/ 
 sed -i "s/^dir=.*/dir=\/mnt\/KSS\/backUps\/poco\/dcim\/screenshots\//" ScreenShot.sh
-echo -e "${OK} Screenshot dir updated."
+echo -e "${OK} ${WARNING}Screenshot dir${RESET} updated."
 
 # setting up tailscale and syncthing
 printf '\033c'
-echo -e "${INFO} Setting up Tailscale "
+echo -e "${INFO} Setting up ${WARNING}Tailscale${RESET}. . ."
 sleep 1
+sudo systemctl enable tailscaled
+sudo systemctl start tailscaled
 sudo tailscale up 
 sleep 1
 sudo tailscale --ssh up
 echo -e "${OK} Tailscale Setup Complete."
-echo -e "${INFO} Setting up Syncthing. . ."
+echo -e "${INFO} Setting up ${WARNING}Syncthing${RESET}. . ."
+systemctl --user enable syncthing
+systemctl --user start syncthing
 syncthing
-echo -e "${OK} Syncthing started [ will copy config.xml from dots ]"
+echo -e "${OK} ${WARNING}Syncthing${RESET} started ${GREEN}[ will copy config.xml from dots ]${RESET}"
 
 # setup myDots 
 printf '\033c'
-echo -e "${INFO} Downloading dots"
+echo -e "${INFO} Downloading ${WARNING}Dots${RESET}"
 sleep 1
 git clone "${myGithub}dot-files"
 cd $(home)/.config/
@@ -494,10 +498,10 @@ echo -e "${OK} dots updated"
 sleep 1 
 
 # Final check
-echo -e "${INFO} setup neovim"
+echo -e "${INFO} setup ${WARNING}Neovim${RESET}"
 sleep 1
 nvim
-echo -e "${NOTE} Check Tailscale and Syncthing "
+echo -e "${NOTE} Check ${WARNING}Tailscale${RESET} and ${WARNING}Syncthing${RESET} "
 sleep 2
 
 
