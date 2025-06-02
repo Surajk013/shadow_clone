@@ -22,6 +22,7 @@ RESET="$(tput sgr0)"
 
 printf '\033c'
 echo -e "Welcome To  ${SKY_BLUE}Warlord's${RESET} ${RED}Arch Installer${RESET}\n\n"
+sleep 3
 
 # Increase parallel downloads from 5 to 15
 echo -e "\n${INFO} Increasing ${WARNING}parallel downloads${RESET} in pacman . . ."
@@ -93,8 +94,6 @@ printf '\033c'
 echo -e "${INFO} Installing ${WARNING}Base${RESET}"
 sleep 3
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
-echo -e "${OK} Base installed"
-sleep 3
 # Remaining packages are installed in the chroot environment
 
 # chrooting [ and directing to a different file | for a new shell ]
@@ -226,7 +225,7 @@ read user
 useradd -mG wheel,storage,audio,video,power,kvm,input -s /bin/sh $user
 
 # set password for the user 
-echo "Enter password: "
+echo "Enter password "
 passwd $user
 
 echo "${OK} User created"
@@ -365,25 +364,6 @@ usermod -aG libvirt $user
 echo -e "${OK} added $user to libvert"
 sleep 10
 
-# download DWMs
-printf '\033c'
-echo -e "${INFO} Downloading ${WARNING}DWM${RESET} . . ."
-sleep 3
-mkdir -p /mnt/KSS/backUps/archinstall/dwm/ 
-cd /mnt/KSS/backUps/archinstall/dwm/ 
-dwm_package=(dwm st dwmblocks dmenu)
-myGithub=https://github.com/surajk013/
-
-for repo in "${dwm_package[@]}"; do 
-  git clone "$myGithub$repo"
-done
-
-echo -e "${OK} ${WARNING}DWM${RESET} successfully downloaded"
-sleep 3
-
-homeDir=/home/$user/
-cd $homeDir
-
 # setup scripts 
 printf '\033c'
 sleep 1 
@@ -432,6 +412,25 @@ RESET="$(tput sgr0)"
 printf '\033c'
 echo -e "${INFO} ${WARNING}Final build${RESET} for the ${ORANGE}user${RESET} ${MAGENTA}[FINISHING TOUCH]${RESET}"
 myGithub=https://github.com/surajk013/
+
+# download DWMs
+printf '\033c'
+echo -e "${INFO} Downloading ${WARNING}DWM${RESET} . . ."
+sleep 3
+mkdir -p /mnt/KSS/backUps/archinstall/dwm/ 
+cd /mnt/KSS/backUps/archinstall/dwm/ 
+dwm_package=(dwm st dwmblocks dmenu)
+myGithub=https://github.com/surajk013/
+
+for repo in "${dwm_package[@]}"; do 
+  git clone "$myGithub$repo"
+done
+
+echo -e "${OK} ${WARNING}DWM${RESET} successfully downloaded"
+sleep 3
+
+homeDir=/home/$user/
+cd $homeDir
 
 # setting up AUR
 printf '\033c'
