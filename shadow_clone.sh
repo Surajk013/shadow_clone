@@ -51,10 +51,10 @@ sleep 3
 printf '\033c'
 echo -e "\n\n${YELLOW}MAKE PARTITIONS${RESET}\n"
 lsblk
-echo -e "\n${NOTE} Enter the drive: "
-read drive
 
 echo -e "\n${NOTE} Make \n${BLUE}1.EFI${RESET}\n${BLUE}2.ROOT${RESET}\n${BLUE}3.STORAGE${RESET}\n paritions\n\n${GREEN}[OPTIONAL] : SWAP${RESET}"
+echo -e "\n${NOTE} Enter the drive: "
+read drive
 cfdisk $drive
 
 # Format root partition
