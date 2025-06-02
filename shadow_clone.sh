@@ -21,7 +21,7 @@ RESET="$(tput sgr0)"
 
 
 printf '\033c'
-echo "Welcome To  ${SKY_BLUE}Warlord's${RESET} ${RED}Arch Installer${RESET}\n\n"
+echo -e "Welcome To  ${SKY_BLUE}Warlord's${RESET} ${RED}Arch Installer${RESET}\n\n"
 
 # Increase parallel downloads from 5 to 15
 echo -e "\n${INFO} Increasing ${WARNING}parallel downloads${RESET} in pacman . . ."
@@ -96,6 +96,7 @@ pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanag
 echo -e "${OK} Base installed"
 systemctl enable NetworkManager 
 systemctl start NetworkManager
+read -p
 sleep 3
 # Remaining packages are installed in the chroot environment
 
@@ -210,6 +211,7 @@ mount $storage /mnt/KSS/backUps
 mount $storage /mnt/KSS/Learnings
 echo -e "\n${OK} Mounted"
 lsblk
+read -p
 sleep 5
 
 # add a user
