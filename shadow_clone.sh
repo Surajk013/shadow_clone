@@ -196,11 +196,12 @@ echo -e "\n${INFO} Setting up ${WARNING}personal storage${RESET}"
 echo -e "Enter the ${YELLOW}storage${RESET} parition: "
 read storage 
 mkfs.btrfs -f $storage
-echo -e "\n${OK} $storage format without ${WARNING}btrfs${RESET} fs complete."
+echo -e "\n${OK} $storage format as ${WARNING}btrfs${RESET} fs complete."
 sleep 3
 
 # setting up BTRFS 
 echo -e "\n${INFO} Creating ${WARNING}mount point${RESET} and ${ORANGE}subvolumes${RESET}"
+mkdir -p /mnt/KSS
 mount -t btrfs $storage /mnt/KSS
 btrfs subv create /mnt/KSS/Media
 btrfs subv create /mnt/KSS/Documents
@@ -364,7 +365,7 @@ usermod -aG libvirt $user
 echo -e "${OK} added $user to libvert"
 sleep 10
 
-# download DWM
+# download DWMs
 printf '\033c'
 echo -e "${INFO} Downloading ${WARNING}DWM${RESET} . . ."
 sleep 3
@@ -395,6 +396,7 @@ cp -r /bin/cpu/* /bin/
 rm -rf /bin/cpu
 cp ${homeDir}scripts/cpu/* /bin/
 echo -e "${OK} ${WARNING}Scripts${RESET} updated."
+chown $suraj:$suraj ${homeDir}scripts
 sleep 3
 
 # Base setup complete - setting up final script
@@ -404,7 +406,7 @@ sleep 3
 
 
 finalFile=/home/$user/final.sh
-echo -e "${OK} Reboot your machine and run $finalFile as $user with sudo privleges to finish setup !"
+echo -e "${OK} Reboot your machine and run $finalFile as $user without sudo privleges to finish setup !"
 sed '1,/^# final$/d' `basename $0`> $finalFile
 chmod +x $finalFile
 chown $user:$user $finalFile
@@ -446,13 +448,13 @@ printf '\033c'
 echo -e "${INFO} Downloading ${MAGENTA}aur${RESET} ${WARNING}packages${RESET}"
 sleep 3
 sleep 1
-yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission-gtk transmission-qt google-chrome-stable onlyoffice-bin upscyal-bin android-studio materia-dark-compact
+yay -S --noconfirm tty-clock wtf cbonsai neofetch pfetch secure-delete hollywood ani-cli steghide auto-cpufreq barrier vimv magnus transmission-gtk transmission-qt google-chrome onlyoffice-bin upscayl-bin android-studio materia-gtk-theme
 echo -e "${OK} ${MAGENTA}aur${RESET} ${WARNING}packages${RESET} BUILT."
 sleep 3
 
 # installing DWM 
 printf '\033c'
-echo -e "${INFO} Installing ${WARNING}DWM$RESET}"
+echo -e "${INFO} Installing ${WARNING}DWM${RESET}"
 sleep 3
 cd /mnt/KSS/backUps/archinstall/dwm/ 
 cd dwm && make clean install && 
@@ -502,7 +504,7 @@ sleep 3
 
 cd $HOME/.config/hypr/UserScripts/ 
 sed -i "s/^city=.*/city=bengaluru/" Weather.sh
-echo 0e "${OK} ${WARNING}City${RESET} added to ${MAGENTA}Weather.sh"
+echo -e "${OK} ${WARNING}City${RESET} added to ${MAGENTA}Weather.sh"
 sleep 3
 
 # setting up tailscale and syncthing
@@ -531,8 +533,8 @@ sleep 3
 cd $HOME
 git clone "${myGithub}dot-files"
 cd $HOME/.config/hypr/
-cp hypr/configs/Keybinds.conf configs/Keybinds.conf.bak 
-cp hypr/UserConfigs/UserKeybinds.conf UserConfigs/UserKeybinds.conf.bak
+cp configs/Keybinds.conf configs/Keybinds.conf.bak 
+cp UserConfigs/UserKeybinds.conf UserConfigs/UserKeybinds.conf.bak
 cd $HOME/.config/
 mkdir tmux qutebrowser kitty nvim gtk-3.0 
 cd $HOME/dot-files/
@@ -540,10 +542,15 @@ cp -r . "$HOME/.config/"
 echo -e "Is this for Desktop? [y/n]: "
 read deskch
 
+mkdir -p "$HOME/.local/state/syncthing/"
 if [[ "$deskch" = "y" ]]; then
-  cp -r syncthing/pc/* "$HOME/.local/share/syncthing/."
+  cp -r syncthing/pc/* "$HOME/.local/state/syncthing/."
+  echo -e "${OK} ${WARNING}PC${RESET} config updated"
+  sleep 3
 else
   cp -r syncthing/laptop/* "$HOME/.local/state/syncthing/."
+  echo -e "${OK} ${WARNING}Laptop${RESET} config updated"
+  sleep 3
 fi
 
 cp .zshrc .vimrc "$HOME/"
@@ -551,7 +558,9 @@ echo -e "${OK} Syncthing Setup Complete."
 sleep 3
 echo -e "${OK} dots updated"
 sleep 3
-sleep 1 
+cd $HOME/.config/ 
+rm -rf nvim
+git clone "${myGithub}nvim"
 
 # Final check
 echo -e "${INFO} setup ${WARNING}Neovim${RESET}"
@@ -581,7 +590,7 @@ echo -ne "${RED} DO NOT FORGET TO SETUP THE SSH AND GPG\nConnect your HARD_DISK 
 sleep 7
 echo -e "\n${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 3
-echo -ne "${ORANGE} Welcome to Warlord's Arch Install${RESET}"
+echo -ne "${ORANGE}Welcome to Warlord's Arch Install${RESET}"
 sleep 5
 printf '\033c'
-Hyprland
+reboot

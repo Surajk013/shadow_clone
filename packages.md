@@ -158,10 +158,10 @@ transmission-gtk
 transmission-qt
 upscayl-bin
 onlyoffice-bin
-google-chrome-stable
+google-chrome
 android-studio
 auto-cpufreq
 barrier
 vimv
 steghide
-materia-dark-compact
+materia-gtk-theme
