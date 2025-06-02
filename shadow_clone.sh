@@ -94,9 +94,6 @@ echo -e "${INFO} Installing ${WARNING}Base${RESET}"
 sleep 3
 pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
 echo -e "${OK} Base installed"
-systemctl enable NetworkManager 
-systemctl start NetworkManager
-read -p
 sleep 3
 # Remaining packages are installed in the chroot environment
 
@@ -143,6 +140,12 @@ ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
 echo -e "\n${OK} Done"
 sleep 3 
+
+# network manager enabled
+systemctl enable NetworkManager 
+systemctl start NetworkManager
+echo -e "\n${INFO} Network Manager enabled"
+sleep 3
 
 # setting locale
 echo -e "${INFO} Setting ${WARNING}locale${RESET}"
@@ -193,7 +196,7 @@ echo -e "\n${INFO} Setting up ${WARNING}personal storage${RESET}"
 echo -e "Enter the ${YELLOW}storage${RESET} parition: "
 read storage 
 mkfs.btrfs -f $storage
-echo -e "\n${OK} $storage format with ${WARNING}btrfs${RESET} fs complete."
+echo -e "\n${OK} $storage format without ${WARNING}btrfs${RESET} fs complete."
 sleep 3
 
 # setting up BTRFS 
@@ -211,7 +214,7 @@ mount $storage /mnt/KSS/backUps
 mount $storage /mnt/KSS/Learnings
 echo -e "\n${OK} Mounted"
 lsblk
-read -p
+read 
 sleep 5
 
 # add a user
@@ -263,7 +266,7 @@ echo -e "${INFO} Building ${WARNING}user environment${RESET}"
 echo -e "Enter user name: "
 read user
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-echo -e "${INFO} Granted wheels on sudoers file"
+echo -e "${INFO} Granted wheel on sudoers file"
 sleep 3
 
 # setting up grub 
@@ -385,12 +388,12 @@ printf '\033c'
 sleep 1 
 echo -e "${INFO} Downloading ${WARNING}scripts${RESET} . . ."
 sleep 3
-cd $HOME
+cd ${homeDir}
 git clone "${myGithub}scripts" 
-cp -r ${homeDir}/scripts/*  /bin/
+cp -r ${homeDir}scripts/*  /bin/
 cp -r /bin/cpu/* /bin/ 
 rm -rf /bin/cpu
-cp ${homeDir}/scripts/cpu/* /bin/
+cp ${homeDir}scripts/cpu/* /bin/
 echo -e "${OK} ${WARNING}Scripts${RESET} updated."
 sleep 3
 
