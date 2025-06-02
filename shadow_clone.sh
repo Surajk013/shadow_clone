@@ -239,6 +239,7 @@ sleep 3
 shadow_clone3=/home/$user/shadow_clone3.sh
 sed '1,/^# userSetup$/d' shadow_clone2.sh > $shadow_clone3
 chown $user:$user $shadow_clone3
+chown -R $user:$user /mnt/KSS 
 chmod +x $shadow_clone3
 su -c $shadow_clone3 -s /bin/sh 
 exit
@@ -431,9 +432,7 @@ done
 echo -e "${OK} ${WARNING}DWM${RESET} successfully downloaded"
 sleep 3
 
-homeDir=/home/$user/
-cd $homeDir
-
+cd $HOME
 # setting up AUR
 printf '\033c'
 echo -e "${INFO} setting ${WARNING}YAY${RESET} ${MAGENTA}aur${RESET}"
