@@ -389,7 +389,7 @@ sleep 3
 
 finalFile=/home/$user/final.sh
 echo -e "${OK} Reboot your machine and run $finalFile as $user without sudo privleges to finish setup !"
-sed '1,/^# final$/d' `basename $0`> $finalFile
+sed '1,/^# final$/d' shadow_clone3.sh > $finalFile
 chmod +x $finalFile
 chown $user:$user $finalFile
 exit
