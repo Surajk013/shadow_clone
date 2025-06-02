@@ -370,6 +370,7 @@ sleep 1
 echo -e "${INFO} Downloading ${WARNING}scripts${RESET} . . ."
 sleep 3
 myGithub=https://github.com/surajk013/
+homeDir=/home/$user/
 cd ${homeDir}
 git clone "${myGithub}scripts" 
 cp -r ${homeDir}scripts/*  /bin/
