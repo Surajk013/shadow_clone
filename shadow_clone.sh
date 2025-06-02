@@ -383,6 +383,7 @@ printf '\033c'
 sleep 1 
 echo -e "${INFO} Downloading ${WARNING}scripts${RESET} . . ."
 sleep 3
+cd $HOME
 git clone "${myGithub}scripts" 
 cp -r ${homeDir}/scripts/*  /bin/
 cp -r /bin/cpu/* /bin/ 
@@ -401,6 +402,7 @@ finalFile=/home/$user/final.sh
 echo -e "${OK} Reboot your machine and run $finalFile as $user with sudo privleges to finish setup !"
 sed '1,/^# final$/d' `basename $0`> $finalFile
 chmod +x $finalFile
+chown $user:$user $finalFile
 exit
 
 # final
@@ -457,6 +459,7 @@ sleep 3
 
 # setting up Hyprland
 printf '\033c'
+cd $HOME
 echo -e "${INFO} Installing ${WARNING}Hyprland${RESET} in 10 seconds \n 
          Please fill prompts \n 
          ${RED}DO NOT REBOOT${RESET} even on prompt"
@@ -520,6 +523,7 @@ sleep 3
 printf '\033c'
 echo -e "${INFO} Downloading ${WARNING}Dots${RESET}"
 sleep 3
+cd $HOME
 git clone "${myGithub}dot-files"
 cd $HOME/.config/hypr/
 cp hypr/configs/Keybinds.conf configs/Keybinds.conf.bak 
@@ -550,12 +554,25 @@ sleep 3
 nvim
 echo -e "${NOTE} Check ${WARNING}Tailscale${RESET} and ${WARNING}Syncthing${RESET} "
 sleep 7
+echo -e "${NOTE} clean scripts? [y/n]: "
+read cleanch 
+if [[ "$cleanch" = "y" ]];then 
+  rm $HOME/final.sh 
+  rm $HOME/shadow_clone3.sh 
+  echo -e "Delted shadow_clone2.sh and final.sh"
+  sleep 3
+  rm /shadow_clone2.sh
+  echo -e "tried removing shadow_clone2.sh"
+else 
+  echo -e "okay! try removing them later \n1.$HOME/final.sh\n2.$HOME/shadow_clone3.sh\n3./shadow_clone2.sh"
+  sleep 5
+fi
 
 
 # BYE !
 
 printf '\033c'
-echo -ne "${RED} DO NOT FORGET TO SETUP THE SSH AND GPG${RESET}"
+echo -ne "${RED} DO NOT FORGET TO SETUP THE SSH AND GPG\nConnect your HARD_DISK and copy all the data${RESET}"
 sleep 7
 echo -e "\n${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 3
