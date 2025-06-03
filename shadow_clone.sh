@@ -149,7 +149,7 @@ sleep 3
 # setting locale
 echo -e "${INFO} Setting ${WARNING}locale${RESET}"
 sleep 3
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "en_US.UTF-8 UTF-8 # added from Warlord's ArchInstall script" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo -e "\n${OK} Done"
@@ -168,9 +168,9 @@ echo -e "Enter Hostname: "
 read hostname
 echo $hostname > /etc/hostname
 
-echo "127.0.0.1       localhost" >> /etc/hosts 
-echo "::1             localhost" >> /etc/hosts 
-echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
+echo "127.0.0.1       localhost # added from Warlord's ArchInstall script" >> /etc/hosts 
+echo "::1             localhost # added from Warlord's ArchInstall script" >> /etc/hosts 
+echo "127.0.1.1       $hostname.localdomain $hostname # added from Warlord's ArchInstall script" >> /etc/hosts
 echo -e "\n${OK} Done"
 
 # build initramfs 
@@ -266,7 +266,7 @@ printf '\033c'
 echo -e "${INFO} Building ${WARNING}user environment${RESET}"
 echo -e "Enter user name: "
 read user
-echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "%wheel ALL=(ALL:ALL) ALL # added from Warlord's ArchInstall script" >> /etc/sudoers
 echo -e "${INFO} Granted wheel on sudoers file"
 sleep 3
 
@@ -590,7 +590,7 @@ echo -ne "${RED} DO NOT FORGET TO SETUP THE SSH AND GPG\nConnect your HARD_DISK 
 sleep 7
 echo -e "\n${SKY_BLUE} ARCH INSTALL SUCCESSFULL ${RESET}"
 sleep 3
-echo -ne "${ORANGE}Welcome to Warlord's Arch Install${RESET}"
+echo -ne "${RED}Welcome to Warlord's Arch Install${RESET}"
 sleep 5
 printf '\033c'
 reboot
