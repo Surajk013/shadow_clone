@@ -515,7 +515,7 @@ sudo systemctl enable tailscaled
 sudo systemctl start tailscaled
 sudo tailscale up 
 sleep 1
-sudo tailscale --ssh up
+sudo tailscale up --ssh
 echo -e "${OK} Tailscale Setup Complete."
 sleep 3
 echo -e "${INFO} Setting up ${WARNING}Syncthing${RESET}. . ."
