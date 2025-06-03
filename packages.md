@@ -16,6 +16,7 @@ dosfstools
 kitty
 bluez
 git
+testdisk
 
 # X11
 xorg

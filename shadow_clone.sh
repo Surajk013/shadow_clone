@@ -93,7 +93,7 @@ sleep 3
 printf '\033c'
 echo -e "${INFO} Installing ${WARNING}Base${RESET}"
 sleep 3
-pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub
+pacstrap -K /mnt base base-devel linux-lts linux-zen linux-firmware networkmanager efibootmgr grub btrfs-progs ntfs-3g wget gvfs foremost dosfstools kitty bluez reflector git grub testdisk
 # Remaining packages are installed in the chroot environment
 
 # chrooting [ and directing to a different file | for a new shell ]
