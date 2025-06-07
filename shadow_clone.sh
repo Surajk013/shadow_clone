@@ -310,6 +310,7 @@ printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Libraries${RESET} . . ."
 sleep 3
 pacman -S --noconfirm calcurse openssh libxft libxinerama openssl python-pipx
+pipx install pyprland
 printf '\033c'
 echo -e "${OK} ${WARNING}Libraries${RESET} setup complete."
 sleep 1
