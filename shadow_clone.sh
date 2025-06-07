@@ -362,6 +362,8 @@ vim /etc/fstab
 
 # now that you have libvert installed
 usermod -aG libvirt $user 
+systemctl ctl enable libvirtd
+systemctl ctl start libvirtd
 echo -e "${OK} added $user to libvert"
 sleep 10
 
