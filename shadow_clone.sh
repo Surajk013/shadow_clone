@@ -493,7 +493,7 @@ sleep 5
 # Setting up Hyprland dots
 cd $HOME/.config/hypr/UserScripts/
 sed -i "s/INTERVAL=.*/INTERVAL=7200/" WallpaperAutoChange.sh
-sed -i "s/wallDIR=.*/wallDIR=\/mnt\/KSS\/Media\/wallpapers\//" WallpaperRandom.sh WallpaperSelect.sh
+sed -i "s/wallDIR=.*/wallDIR=\/mnt\/KSS\/Media\/wallpapers\//" WallpaperRandom.sh WallpaperSelect.sh ../UserConfigs/Startup_Apps.conf
 echo -e "${OK} ${WARNING}Wall dir${RESET} + ${WARNING}Interval${RESET} updated."
 sleep 3
 
