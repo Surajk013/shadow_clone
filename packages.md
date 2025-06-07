@@ -85,6 +85,7 @@ openssh
 libxft
 libxinerama
 openssl
+python-pipx
 
 # SYS_MONITORING
 at

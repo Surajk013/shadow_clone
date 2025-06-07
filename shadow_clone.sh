@@ -309,7 +309,7 @@ sleep 1
 printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Libraries${RESET} . . ."
 sleep 3
-pacman -S --noconfirm calcurse openssh libxft libxinerama openssl
+pacman -S --noconfirm calcurse openssh libxft libxinerama openssl python-pipx
 printf '\033c'
 echo -e "${OK} ${WARNING}Libraries${RESET} setup complete."
 sleep 1
