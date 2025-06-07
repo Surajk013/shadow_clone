@@ -327,7 +327,7 @@ sleep 1
 printf '\033c'
 echo -e "${INFO} Setting up ${WARNING}Applications${RESET} . . ."
 sleep 3
-pacman -S --noconfirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp asciiquarium sxiv zathura qutebrowser firefox kdenlive obs-studio 
+pacman -S --noconfirm ranger slurp viu bc fzf gnome-calculator gnome-disk-utility mpv blueman nautilus thunar nemo eog cheese gimp asciiquarium sxiv zathura qutebrowser firefox kdenlive obs-studio telegram-desktop discord
 printf '\033c'
 echo -e "${OK} ${WARNING}Applications${RESET} setup complete."
 sleep 1

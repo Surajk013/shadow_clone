@@ -123,6 +123,8 @@ qutebrowser
 firefox
 kdenlive
 obs-studio
+telegram-desktop
+discord
 
 
 # MISCELLANEOUS
